@@ -34,12 +34,16 @@ public class GraphMatrix<E> implements IGraph<E> {
             vertices.put(element, vertex);
             
             mapIndex.put(vertex, mapIndex.size());
+
+            //Se inicializa la lista
             
             for (List<Double> row : adjMatrix) {
                 
                 row.add(0.0);
             
             }
+
+            // Nueva fila creada por el vertice añadido
             
             List<Double> newRow = new ArrayList<>();
             
