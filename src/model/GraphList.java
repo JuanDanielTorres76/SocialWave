@@ -170,67 +170,6 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public Path<E> dijkstra(E eSource, E eDestination) {
-        
-        Map<Vertex<E>, Double> distances = new HashMap<>();
-        
-        for (Vertex<E> vertex : vertices.values()) {
-            
-            distances.put(vertex, Double.POSITIVE_INFINITY);
-        
-        }
-        
-        PriorityQueue<Path<E>> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::getDistance));
-        
-        Vertex<E> sourceVertex = vertices.get(eSource);
-        
-        distances.put(sourceVertex, 0.0);
-        
-        queue.add(new Path<>(sourceVertex, 0.0, null));
-        
-        while (!queue.isEmpty()) {
-            
-            Path<E> currentPath = queue.poll();
-            
-            Vertex<E> currentVertex = currentPath.getVertex();
-    
-            if (!currentPath.isVisited()) {
-                
-                currentPath.setVisited(true);
-
-            }
-    
-            if (currentVertex.getElement().equals(eDestination)) {
-                
-                return currentPath;
-                
-            }
-
-            for (Map.Entry<Vertex<E>, Double> entry : edges.get(currentVertex).entrySet()) {
-
-                Vertex<E> neighbor = entry.getKey();
-                
-                double edgeWeight = entry.getValue();
-                
-                double newDistance = distances.get(currentVertex) + edgeWeight;
-                
-                if (newDistance < distances.get(neighbor)) {
-                    
-                    distances.put(neighbor, newDistance);
-                    
-                    queue.add(new Path<>(neighbor, newDistance, currentVertex));
-                
-                }
-            
-            }
-        
-        }
-    
-        return null;
-    
-    } 
-
-    @Override
     public void deleteVertex(E element){
 
         if(vertices.containsKey(element)){
