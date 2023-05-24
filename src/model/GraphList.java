@@ -38,23 +38,15 @@ public class GraphList<E> implements IGraph<E>{
 
         Vertex<E> verticeDestination = vertices.get(destination);
 
-        // Verifica si los vertices de origen y destino existen en el grafo.
-
         if(verticeSource != null && verticeDestination != null){
 
             verticeSource.addAdjacent(verticeDestination);
 
-            // Obtiene el mapa de vertices adyacentes y pesos del vértice de origen.
-
             Map<Vertex<E>, Double> firts = edges.get(verticeSource) != null ? edges.get(verticeSource) : new HashMap<>();
-
-            // Agrega una entrada al mapa con el vértice de destino como clave y el peso como valor
 
             firts.put(verticeDestination, weight);
 
             edges.put(verticeSource, firts);
-
-            // Verifica si el grafo no es dirigido.
 
             if(!isDirected){
                 verticeDestination.addAdjacent(verticeSource);
