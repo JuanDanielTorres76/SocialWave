@@ -178,10 +178,6 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public Path<E> dijkstra(E eSource, E eDestination){
-    }
-
-    @Override
     public void deleteVertex(E element){
 
         if(vertices.containsKey(element)){
