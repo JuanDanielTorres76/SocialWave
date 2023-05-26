@@ -2,11 +2,11 @@ package model;
 
 import java.util.*;
 
-public class GraphList<E> implements IGraph<E>{
+public class GraphList<K,T> implements IGraph<K,T>{
 
-    private Map<E, Vertex<E>> vertices;
+    private Map<K, Vertex<K,T>> vertices;
 
-    private Map<Vertex<E>, Map<Vertex<E>, Double>> edges;
+    private Map<Vertex<K,T>, Map<Vertex<K,T>, Double>> edges;
 
     private boolean isDirected;
 
@@ -21,28 +21,28 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public void addVertex(E element) {
+    public void addVertex(K key, T element) {
 
-        if(!vertices.containsKey(element)){
+        if(!vertices.containsKey(key)){
 
-            vertices.put(element, new Vertex<>(element));
+            vertices.put(key, new Vertex<>(element, key));
 
         }
 
     }
 
     @Override
-    public void addEdge(E source, E destination, double weight) {
+    public void addEdge(K source, K destination, double weight) {
 
-        Vertex<E> verticeSource = vertices.get(source);
+        Vertex<K,T> verticeSource = vertices.get(source);
 
-        Vertex<E> verticeDestination = vertices.get(destination);
+        Vertex<K,T> verticeDestination = vertices.get(destination);
 
         if(verticeSource != null && verticeDestination != null){
 
             verticeSource.addAdjacent(verticeDestination);
 
-            Map<Vertex<E>, Double> firts = edges.get(verticeSource) != null ? edges.get(verticeSource) : new HashMap<>();
+            Map<Vertex<K,T>, Double> firts = edges.get(verticeSource) != null ? edges.get(verticeSource) : new HashMap<>();
 
             firts.put(verticeDestination, weight);
 
@@ -51,7 +51,7 @@ public class GraphList<E> implements IGraph<E>{
             if(!isDirected){
                 verticeDestination.addAdjacent(verticeSource);
 
-                Map<Vertex<E>, Double> second = edges.get(verticeDestination) != null ? edges.get(verticeDestination) : new HashMap<>();
+                Map<Vertex<K,T>, Double> second = edges.get(verticeDestination) != null ? edges.get(verticeDestination) : new HashMap<>();
 
                 second.put(verticeSource, weight);
 
@@ -66,7 +66,7 @@ public class GraphList<E> implements IGraph<E>{
     @Override
     public void DFS() {
 
-        for (Vertex<E> vertex : vertices.values()) {
+        for (Vertex<K,T> vertex : vertices.values()) {
 
             vertex.setColor(Color.WHITE);
 
@@ -76,7 +76,7 @@ public class GraphList<E> implements IGraph<E>{
 
         int time = 0;
 
-        for(Vertex<E> a : vertices.values()){
+        for(Vertex<K,T> a : vertices.values()){
 
             if(a.getColor() == Color.WHITE){
 
@@ -87,7 +87,7 @@ public class GraphList<E> implements IGraph<E>{
 
     }
 
-    private int DFSTraversal(Vertex<E> a, int time){
+    private int DFSTraversal(Vertex<K,T> a, int time){
 
         time++;
 
@@ -95,7 +95,7 @@ public class GraphList<E> implements IGraph<E>{
 
         a.setColor(Color.GRAY);
 
-        for(Vertex<E> b: a.getGraphList()){
+        for(Vertex<K,T> b: a.getGraphList()){
 
             if(b.getColor() == Color.WHITE){
 
@@ -118,13 +118,13 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public void BFS(E sourceElement) {
+    public void BFS(K sourceKey) {
 
-        Vertex<E> source = vertices.get(sourceElement);
+        Vertex<K,T> source = vertices.get(sourceKey);
         
-        List<Vertex<E>> vertexList = new ArrayList<>(vertices.values());
+        List<Vertex<K,T>> vertexList = new ArrayList<>(vertices.values());
     
-        for (Vertex<E> v : vertexList) {
+        for (Vertex<K,T> v : vertexList) {
 
             v.setColor(Color.WHITE);
 
@@ -139,15 +139,15 @@ public class GraphList<E> implements IGraph<E>{
 
         source.setPredecessor(null);
         
-        Queue<Vertex<E>> queue = new LinkedList<>();
+        Queue<Vertex<K,T>> queue = new LinkedList<>();
 
         queue.offer(source);
         
         while (!queue.isEmpty()) {
 
-            Vertex<E> a = queue.poll();
+            Vertex<K,T> a = queue.poll();
         
-            for (Vertex<E> v : a.getGraphList()) {
+            for (Vertex<K,T> v : a.getGraphList()) {
 
                 if (v.getColor() == Color.WHITE) {
 
@@ -170,13 +170,13 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public void deleteVertex(E element){
+    public void deleteVertex(K key){
 
-        if(vertices.containsKey(element)){
+        if(vertices.containsKey(key)){
 
-            edges.put(vertices.get(element), null);
+            edges.put(vertices.get(key), null);
 
-            vertices.put(element, null);
+            vertices.put(key, null);
 
         }
 
@@ -184,19 +184,19 @@ public class GraphList<E> implements IGraph<E>{
 
     @Override
 
-    public Path<E> dijkstra(E eSource, E eDestination) {
+    public Path<K,T> dijkstra(K eSource, K eDestination) {
         
-        Map<Vertex<E>, Double> distances = new HashMap<>();
+        Map<Vertex<K,T>, Double> distances = new HashMap<>();
         
-        for (Vertex<E> vertex : vertices.values()) {
+        for (Vertex<K,T> vertex : vertices.values()) {
             
             distances.put(vertex, Double.POSITIVE_INFINITY);
         
         }
         
-        PriorityQueue<Path<E>> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::getDistance));
+        PriorityQueue<Path<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::getDistance));
         
-        Vertex<E> sourceVertex = vertices.get(eSource);
+        Vertex<K,T> sourceVertex = vertices.get(eSource);
         
         distances.put(sourceVertex, 0.0);
         
@@ -204,9 +204,9 @@ public class GraphList<E> implements IGraph<E>{
         
         while (!queue.isEmpty()) {
             
-            Path<E> currentPath = queue.poll();
+            Path<K,T> currentPath = queue.poll();
             
-            Vertex<E> currentVertex = currentPath.getVertex();
+            Vertex<K,T> currentVertex = currentPath.getVertex();
     
             if (!currentPath.isVisited()) {
                 
@@ -220,9 +220,9 @@ public class GraphList<E> implements IGraph<E>{
                 
             }
 
-            for (Map.Entry<Vertex<E>, Double> entry : edges.get(currentVertex).entrySet()) {
+            for (Map.Entry<Vertex<K,T>, Double> entry : edges.get(currentVertex).entrySet()) {
 
-                Vertex<E> neighbor = entry.getKey();
+                Vertex<K,T> neighbor = entry.getKey();
                 
                 double edgeWeight = entry.getValue();
                 
@@ -246,20 +246,20 @@ public class GraphList<E> implements IGraph<E>{
 
 
     @Override
-    public Vertex<E> searchVertex(E element){
+    public Vertex<K,T> searchVertex(K key){
 
-        return vertices.get(element);
+        return vertices.get(key);
 
     }
 
     @Override
-    public Double searchEdge(E source, E destination){
+    public Double searchEdge(K sourceKey, K destinationKey){
 
-        Map<Vertex<E>, Double> aux = edges.get(vertices.get(source));
+        Map<Vertex<K,T>, Double> aux = edges.get(vertices.get(sourceKey));
 
         if(aux != null){
 
-            return aux.get(vertices.get(destination));
+            return aux.get(vertices.get(destinationKey));
 
         }
 
@@ -267,11 +267,11 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public void deleteEdge(E source, E destination){
+    public void deleteEdge(K source, K destination){
 
-        Vertex<E> vSource = vertices.get(source);
+        Vertex<K,T> vSource = vertices.get(source);
 
-        Vertex<E> vDestination = vertices.get(destination);
+        Vertex<K,T> vDestination = vertices.get(destination);
 
         if(vSource != null && vDestination != null){
 
@@ -288,9 +288,9 @@ public class GraphList<E> implements IGraph<E>{
 
 
     @Override
-    public Color getColor(E element) {
+    public Color getColor(K key) {
 
-        Vertex<E> vertex = vertices.get(element);
+        Vertex<K,T> vertex = vertices.get(key);
 
         if (vertex != null) {
 
@@ -303,9 +303,9 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public double getDiscoveryTime(E element) {
+    public double getDiscoveryTime(K key) {
 
-        Vertex<E> vertex = vertices.get(element);
+        Vertex<K,T> vertex = vertices.get(key);
         
         if (vertex != null) {
 
@@ -318,9 +318,9 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public int getFinishTime(E element) {
+    public int getFinishTime(K key) {
 
-        Vertex<E> vertex = vertices.get(element);
+        Vertex<K,T> vertex = vertices.get(key);
 
         if (vertex != null) {
 
@@ -332,17 +332,17 @@ public class GraphList<E> implements IGraph<E>{
     }
 
     @Override
-    public E getPredecessor(E element) {
+    public K getPredecessor(K element) {
 
-        Vertex<E> vertex = vertices.get(element);
+        Vertex<K,T> vertex = vertices.get(element);
 
         if (vertex != null) {
 
-            Vertex<E> predecessor = vertex.getPredecessor();
+            Vertex<K,T> predecessor = vertex.getPredecessor();
 
             if (predecessor != null) {
 
-                return predecessor.getElement();
+                return predecessor.getKey();
 
             }
 

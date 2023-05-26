@@ -12,28 +12,28 @@ import model.*;
 
 public class GraphTest {
 
-    private IGraph<Integer> graph;
+    private IGraph<Integer, String> graph;
 
     @Before
     public void setUp() {
 
         graph = new GraphList<>(true);
 
-        graph.addVertex(1);
+        graph.addVertex(1, "One");
 
-        graph.addVertex(2);
+        graph.addVertex(2, "Two");
 
-        graph.addVertex(3);
+        graph.addVertex(3, "Three");
 
-        graph.addVertex(4);
+        graph.addVertex(4, "Four");
 
-        graph.addVertex(5);
+        graph.addVertex(5, "Five");
 
-        graph.addVertex(6);
+        graph.addVertex(6, "Six");
 
-        graph.addVertex(7);
+        graph.addVertex(7, "Seven");
 
-        graph.addVertex(8);
+        graph.addVertex(8, "Eigth");
 
         graph.addEdge(1, 2, 1);
 
@@ -104,7 +104,7 @@ public class GraphTest {
     @Test
     public void testBFSDisconnected() {
 
-        graph.addVertex(9);
+        graph.addVertex(9, "Nine");
 
         graph.BFS(1);
 

@@ -1,31 +1,31 @@
 package model;
 
-public interface IGraph<E> {
+public interface IGraph<K,T> {
 
-    public void addVertex(E element);
+    public void addVertex(K key, T element);
 
-    public void addEdge(E source, E destination, double weight);
+    public void addEdge(K sourceKey, K destinationKey, double weight);
 
     public void DFS();
 
-    public void BFS(E sourceElement);
+    public void BFS(K sourceElement);
 
-    public Color getColor(E element);
+    public Color getColor(K key);
 
-    public double getDiscoveryTime(E element);
+    public double getDiscoveryTime(K key);
 
-    public int getFinishTime(E element);
+    public int getFinishTime(K key);
 
-    public E getPredecessor(E element);
+    public K getPredecessor (K key);
 
-    public void deleteVertex(E element);
+    public void deleteVertex(K key);
 
-    public void deleteEdge(E source, E destination);
+    public void deleteEdge(K sourceKey, K destinationKey);
 
-    public Vertex<E> searchVertex(E element);
+    public Vertex<K,T> searchVertex(K key);
 
-    public Double searchEdge(E source, E destination);
+    public Double searchEdge(K sourceKey, K destinationKey);
 
-    public Path<E> dijkstra(E eSource, E eDestination);
+    public Path<K,T> dijkstra(K eSource, K eDestination);
 
 }

@@ -1,16 +1,16 @@
 package model;
 
-public class Path<E> {
+public class Path<K,T> {
 
-    private Vertex<E> vertex;
+    private Vertex<K,T> vertex;
 
     private double distance;
 
     private boolean visited;
 
-    private Vertex<E> predecessor;
+    private Vertex<K,T> predecessor;
 
-    public Path(Vertex<E> vertex, double distance, Vertex<E> predecessor) {
+    public Path(Vertex<K,T> vertex, double distance, Vertex<K,T> predecessor) {
 
         this.vertex = vertex;
         
@@ -20,7 +20,7 @@ public class Path<E> {
     
     }
 
-    public Vertex<E> getVertex() {
+    public Vertex<K,T> getVertex() {
         
         return vertex;
     
@@ -50,11 +50,11 @@ public class Path<E> {
     
     }
 
-    public void setPredecessor(Vertex<E> predecessor) {
+    public void setPredecessor(Vertex<K,T> predecessor) {
         this.predecessor = predecessor;
     }
     
-    public Vertex<E> getPredecessor() {
+    public Vertex<K,T> getPredecessor() {
 
         return predecessor;
     
