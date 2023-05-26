@@ -209,7 +209,7 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
     }
 
     @Override
-    public Path<K,T> dijkstra(K eSource, K eDestination) {
+    public PathDijkstra<K,T> dijkstra(K eSource, K eDestination) {
 
         Map<Vertex<K,T>, Double> distances = new HashMap<>();
 
@@ -219,17 +219,17 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
 
         }
 
-        PriorityQueue<Path<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(Path::getDistance));
+        PriorityQueue<PathDijkstra<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(PathDijkstra::getDistance));
 
         Vertex<K,T> sourceVertex = vertices.get(eSource);
 
         distances.put(sourceVertex, 0.0);
 
-        queue.add(new Path<>(sourceVertex, 0.0, null));
+        queue.add(new PathDijkstra(sourceVertex, 0, sourceVertex));
 
         while (!queue.isEmpty()) {
 
-            Path<K,T> currentPath = queue.poll();
+            PathDijkstra<K,T> currentPath = queue.poll();
 
             Vertex<K,T> currentVertex = currentPath.getVertex();
 
@@ -257,7 +257,7 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
                         
                         distances.put(neighbor, newDistance);
                         
-                        queue.add(new Path<>(neighbor, newDistance, currentVertex));
+                        queue.add(new PathDijkstra<>(neighbor, newDistance, currentVertex));
                     
                     }
                 
@@ -283,6 +283,72 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
         return null;
     
     }    
+
+    @Override
+    public Map<Pair<K, K>, Path<K>> floydWarshall() {
+
+        int n = vertices.size();
+        double [][] distance = new double[n][n];
+        Vertex<K,T> [][] prev = new Vertex[n][n];
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                distance[i][j] = Double.MAX_VALUE;
+            }
+            distance[i][i] = 0;
+        }
+
+        Map<Integer, Vertex<K,T>> aux = new HashMap<>();
+        mapIndex.forEach((vertex, i) ->  aux.put(i, vertex));
+
+        for (int i = 0; i < adjMatrix.size(); i++){
+            for(int j = 0; j < adjMatrix.size(); j++){
+                if(adjMatrix.get(i).get(j) != Double.MAX_VALUE){
+                    distance[i][j] = adjMatrix.get(i).get(j);
+                    prev[i][j] = aux.get(i);
+                }
+            }
+        }
+
+
+        for (int k = 0; k < n; k++) {
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++) {
+                    if(distance[i][j] > distance[i][k] + distance[k][j]){
+                        distance[i][j] = distance[i][k] + distance[k][j];
+                        prev[i][j] = prev[k][j];
+                    }
+                }
+            }
+        }
+
+        Map<Pair<K, K>, Path<K>> paths = new HashMap<>();
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+
+                if(i == j) continue;
+
+                List<K> listPath = new ArrayList<>();
+                listPath.add(aux.get(j).getKey());
+
+                Vertex<K,T> current = prev[i][j];
+                while(current != null && current != aux.get(i)){
+                    listPath.add(current.getKey());
+                    current = prev[i][mapIndex.get(current)];
+                }
+                listPath.add(aux.get(i).getKey());
+                Collections.reverse(listPath);
+
+                paths.put(new Pair<>(aux.get(i).getKey(), aux.get(j).getKey()),
+                        new Path<>(listPath, distance[i][j]));
+
+            }
+        }
+
+        return paths;
+
+    }
 
 
     private Vertex<K,T> getVertex(int index) {
