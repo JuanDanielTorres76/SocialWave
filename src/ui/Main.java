@@ -16,6 +16,14 @@ public class Main {
 
         menu();
 
+        Controler controller = main.getManager();
+
+        String userA = "Paula";
+        
+        String userB = "Sofia";
+        
+        controller.printCommonFriends(userA, userB);
+
     }
 
     public static void menu(){
