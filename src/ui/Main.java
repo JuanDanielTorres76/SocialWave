@@ -47,7 +47,5 @@ public class Main {
     public void setManager(Controler manager) {
         this.manager = manager;
     }
-
     
-
 }

@@ -209,57 +209,59 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
     }
 
     @Override
-    public PathDijkstra<K,T> dijkstra(K eSource, K eDestination) {
-
-        Map<Vertex<K,T>, Double> distances = new HashMap<>();
-
-        for (Vertex<K,T> vertex : vertices.values()) {
-
-            distances.put(vertex, Double.POSITIVE_INFINITY);
-
+    public Path<K> dijkstra(K eSource, K eDestination) {
+        
+        Vertex<K,T> source = vertices.get(eSource);
+        
+        Vertex<K,T> destination = vertices.get(eDestination);
+        
+        if (source == null || destination == null) {
+            
+            return null;
+        
         }
-
-        PriorityQueue<PathDijkstra<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(PathDijkstra::getDistance));
-
-        Vertex<K,T> sourceVertex = vertices.get(eSource);
-
-        distances.put(sourceVertex, 0.0);
-
-        queue.add(new PathDijkstra(sourceVertex, 0, sourceVertex));
-
+        
+        Map<Vertex<K,T>, Double> distances = new HashMap<>();
+        
+        Map<Vertex<K,T>, Vertex<K,T>> predecessors = new HashMap<>();
+        
+        PriorityQueue<Vertex<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
+        
+        for (Vertex<K,T> vertex : vertices.values()) {
+            
+            distances.put(vertex, Double.MAX_VALUE);
+            
+            predecessors.put(vertex, null);
+        
+        }
+        
+        distances.put(source, 0.0);
+        
+        queue.offer(source);
+        
         while (!queue.isEmpty()) {
-
-            PathDijkstra<K,T> currentPath = queue.poll();
-
-            Vertex<K,T> currentVertex = currentPath.getVertex();
-
-            if (currentPath.isVisited()) {
-
-                currentPath.setVisited(true);
-
+            
+            Vertex<K,T> current = queue.poll();
+            
+            if (current.equals(destination)) {
+                
+                break;
+            
             }
-
-            if (currentVertex.getElement().equals(eDestination)) return currentPath;
-
-            int currentIndex = mapIndex.get(currentVertex);
-
-            for (int i = 0; i < adjMatrix.size(); i++) {
-
-                if (adjMatrix.get(currentIndex).get(i) != null) {
+            
+            for (Vertex<K,T> adjacent : getAdjacentVertices(current)) {
+                
+                double weight = searchEdge(current.getKey(), adjacent.getKey());
+                
+                double newDistance = distances.get(current) + weight;
+                
+                if (newDistance < distances.get(adjacent)) {
                     
-                    Vertex<K,T> neighbor = getVertexByIndex(i);
+                    distances.put(adjacent, newDistance);
                     
-                    double edgeWeight = adjMatrix.get(currentIndex).get(i);
+                    predecessors.put(adjacent, current);
                     
-                    double newDistance = distances.get(currentVertex) + edgeWeight;
-                    
-                    if (newDistance < distances.get(neighbor)) {
-                        
-                        distances.put(neighbor, newDistance);
-                        
-                        queue.add(new PathDijkstra<>(neighbor, newDistance, currentVertex));
-                    
-                    }
+                    queue.offer(adjacent);
                 
                 }
             
@@ -267,23 +269,42 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
         
         }
         
-        return null;
-    
-    }
-
-    private Vertex<K,T> getVertexByIndex(int index) {
-
-        for (Map.Entry<Vertex<K,T>, Integer> entry : mapIndex.entrySet()) {
-
+        List<K> path = new ArrayList<>();
+        
+        Vertex<K,T> current = destination;
+        
+        while (current != null) {
             
-            if (entry.getValue() == index) return entry.getKey();
+            path.add(0, current.getKey());
+            
+            current = predecessors.get(current);
         
         }
         
-        return null;
+        return new Path<>(path, distances.get(destination));
     
-    }    
-
+    }
+    
+    private List<Vertex<K,T>> getAdjacentVertices(Vertex<K,T> vertex) {
+        
+        List<Vertex<K,T>> adjacentVertices = new ArrayList<>();
+        
+        int index = mapIndex.get(vertex);
+        
+        for (int i = 0; i < adjMatrix.size(); i++) {
+            
+            if (adjMatrix.get(index).get(i) != 0) {
+                
+                adjacentVertices.add(getVertex(i));
+            
+            }
+        
+        }
+        
+        return adjacentVertices;
+    
+    }
+    
     @Override
     public Map<Pair<K, K>, Path<K>> floydWarshall() {
 

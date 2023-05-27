@@ -28,8 +28,8 @@ public interface IGraph<K,T> {
 
     public Double searchEdge(K sourceKey, K destinationKey);
 
-    public PathDijkstra<K,T> dijkstra(K eSource, K eDestination);
-
     public Map<Pair<K, K>, Path<K>> floydWarshall();
+
+    public Path<K> dijkstra(K eSource, K eDestination);
 
 }
