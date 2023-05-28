@@ -434,4 +434,11 @@ public class GraphList<K,T> implements IGraph<K,T>{
 
     }
 
+    @Override
+    public List<Vertex<K,T>> getVertices() {
+        
+        return new ArrayList<>(vertices.values());
+    
+    }
+
 }

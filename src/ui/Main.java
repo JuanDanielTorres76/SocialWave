@@ -18,9 +18,11 @@ public class Main {
 
         Controler controller = main.getManager();
 
-        String userA = "Paula";
+        controller.printUsersWithFriends();
+
+        String userA = "Mariana";
         
-        String userB = "Sofia";
+        String userB = "Maria";
         
         controller.printCommonFriends(userA, userB);
 

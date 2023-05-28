@@ -20,8 +20,8 @@ public class Controler {
         }
     
         addFriendship("Paula", "Maria"); addFriendship("Paula", "David"); addFriendship("Maria", "Juan"); addFriendship("David", "Juan");
-        addFriendship("Paula", "Lucas"); addFriendship("Maria", "Juan"); addFriendship("Maria", "Sofia"); addFriendship("Maria", "Mateo"); 
-        addFriendship("Maria", "Isabella"); addFriendship("David", "Juan"); addFriendship("David", "Sofia"); addFriendship("David", "Lucas");
+        addFriendship("Paula", "Lucas"); addFriendship("Fabiana", "Juan"); addFriendship("Maria", "Sofia"); addFriendship("Maria", "Mateo"); 
+        addFriendship("Maria", "Isabella"); addFriendship("Benjamin", "Juan"); addFriendship("David", "Sofia"); addFriendship("David", "Lucas");
         addFriendship("David", "Mateo"); addFriendship("Juan", "Sofia"); addFriendship("Juan", "Lucas"); addFriendship("Juan", "Mateo"); 
         addFriendship("Juan", "Isabella"); addFriendship("Isabella", "Camila"); addFriendship("Isabella", "Benjamin"); addFriendship("Isabella", "Daniel");
         addFriendship("Sofia", "Lucas"); addFriendship("Sofia", "Mateo"); addFriendship("Sofia", "Isabella"); addFriendship("Sofia", "Valentina");
@@ -34,6 +34,10 @@ public class Controler {
         addFriendship("Irene", "Jacqueline"); addFriendship("Jacqueline", "Katherine"); addFriendship("Katherine", "Liliana"); addFriendship("Liliana", "Mariana");
         addFriendship("Oriana", "Penelope"); addFriendship("Camila", "Mia"); addFriendship("Benjamin", "Daniel"); addFriendship("Olivia", "Sebastian");
         addFriendship("Mia", "Santiago"); addFriendship("Mia", "Gabriel"); addFriendship("Santiago", "Victoria"); addFriendship("Santiago", "Samuel"); addFriendship("Santiago", "Isabelle");
+        addFriendship("Paula", "Penelope"); addFriendship("Paula", "Nora"); addFriendship("Maria", "Liliana"); addFriendship("David", "Carlos"); addFriendship("David", "Fernando");
+        addFriendship("Sofia", "Irene"); addFriendship("Sofia", "Penelope"); addFriendship("Lucas", "Liliana"); addFriendship("Lucas", "Giselle"); addFriendship("Mateo", "Mariana");
+        addFriendship("Valentina", "Diego"); addFriendship("Valentina", "Hannah"); addFriendship("Valentina", "Jacqueline"); addFriendship("Daniel", "Carolina"); addFriendship("Daniel", "Penelope");
+        addFriendship("Olivia", "Elena"); addFriendship("Natalie", "Diana"); addFriendship("Emily", "Isabelle"); addFriendship("Sebastian", "Penelope"); addFriendship("Angelina", "Nora");
         
     }
 
@@ -84,6 +88,26 @@ public class Controler {
     
     }
 
+    public void printUsersWithFriends() {
+        for (Vertex<String, User> vertex : graph.getVertices()) {
+            
+            User user = vertex.getElement();
+            
+            System.out.print(user.getName() + " - Amigos: ");
+            
+            for (User friend : user.getFriends()) {
+                
+                System.out.print(friend.getName() + ", ");
+            
+            }
+            
+            System.out.println();
+        
+        }
+    
+    }
+    
+    
     public void printCommonFriends(String userA, String userB) {
         List<User> commonFriends = findCommonFriends(userA, userB);
     
@@ -97,7 +121,7 @@ public class Controler {
             
             for (User friend : commonFriends) {
                 
-                System.out.print(" " + friend.getName() + ", ");
+                System.out.print(" " + friend.getName() + " -");
             
             }
         
