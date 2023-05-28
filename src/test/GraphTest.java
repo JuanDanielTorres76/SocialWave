@@ -57,6 +57,112 @@ public class GraphTest {
 
     }
 
+    // Add
+
+    @Test
+    public void testAddVertex() {
+        
+        graph.addVertex(9, "Nine");
+        
+        Assert.assertNotNull(graph.searchVertex(9));
+    
+    }
+
+    @Test
+    public void testAddDuplicateVertex() {
+        
+        graph.addVertex(1, "One");
+     
+        Assert.assertEquals("One", graph.searchVertex(1).getElement());
+    
+    }
+
+    @Test
+    public void testAddEdge() {
+        
+        graph.addEdge(1, 4, 2.5);
+       
+        Assert.assertEquals(2.5, graph.searchEdge(1, 4), 0.001);
+    }
+    
+
+    // Deelete
+
+    @Test
+    public void testRemoveVertex() {
+        
+        graph.deleteVertex(8);
+        
+        Assert.assertNull(graph.searchVertex(8));
+        
+        Assert.assertNull(graph.searchEdge(4, 8));
+        
+        Assert.assertNull(graph.searchEdge(5, 8));
+        
+        Assert.assertNull(graph.searchEdge(6, 8));
+        
+        Assert.assertNull(graph.searchEdge(7, 8));
+    
+    }
+
+    @Test
+    public void testRemoveNonexistentVertex() {
+
+        // Vertice inexistente
+        graph.deleteVertex(9);
+
+        Assert.assertNotNull(graph.searchVertex(1));
+        
+        Assert.assertNotNull(graph.searchVertex(2));
+        
+        Assert.assertNotNull(graph.searchVertex(3));
+    
+    }
+    
+
+    // Search
+
+    @Test
+    public void testSearchVertex() {
+        
+        Vertex<Integer, String> vertex = graph.searchVertex(3);
+        
+        Assert.assertNotNull(vertex);
+        
+        Assert.assertEquals("Three", vertex.getElement());
+    
+    }
+
+    @Test
+    public void testSearchNonexistentEdge() {
+
+        // Arista inexistente
+        Double weight = graph.searchEdge(4, 6);
+        
+        Assert.assertNull(weight);
+
+    }
+
+    @Test
+    public void testSearchNonexistentVertex() {
+
+        // Vertice inexistente
+        Vertex<Integer, String> vertex = graph.searchVertex(9);
+        
+        Assert.assertNull(vertex);
+    
+    }
+
+    // Dijkstra
+
+
+
+    // Prim
+
+
+
+    // BFS
+
     @Test
     public void testBFSColor() {
 
@@ -115,6 +221,8 @@ public class GraphTest {
         Assert.assertNull(graph.getPredecessor(9));
 
     }
+
+    // DFS
 
     @Test
     public void testDFSBackEdge() {
