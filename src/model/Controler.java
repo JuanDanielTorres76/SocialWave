@@ -93,11 +93,11 @@ public class Controler {
             
             User user = vertex.getElement();
             
-            System.out.print(user.getName() + " - Amigos: ");
+            System.out.print("Usuario: " + user.getName() + " - Amigos: ");
             
             for (User friend : user.getFriends()) {
                 
-                System.out.print(friend.getName() + ", ");
+                System.out.print(friend.getName() + ". ");
             
             }
             
@@ -107,15 +107,14 @@ public class Controler {
     
     }
     
-    
     public void printCommonFriends(String userA, String userB) {
         List<User> commonFriends = findCommonFriends(userA, userB);
     
-        System.out.print("Amigos en comun entre " + userA + " y " + userB + ":");
+        System.out.print("\nAmigos en comun entre " + userA + " y " + userB + ":");
     
         if (commonFriends.isEmpty()) {
             
-            System.out.println("No tienen amigos en comun.");
+            System.out.println("\nNo tienen amigos en comun.");
         
         } else {
             
@@ -127,6 +126,82 @@ public class Controler {
         
         }
     
-    } 
+    }
 
+    public String analyzeSocialInfluence(String user) {
+
+        double closeness = calculateCloseness(user);
+        
+        double betweenness = calculateBetweenness(user);
+        
+        double influence = closeness + betweenness;
+
+        String msj = "";
+
+        if(influence >= 170){
+
+            msj = "\n" + "La influencia social de " + user + " es de " + influence + "\n" +
+            user + " cuenta con una gran influencia en la red social. (influencia mayor a la media.)";
+        
+        } else{
+            
+            msj = "La influencia social de " + user + " es de " + influence + "\n" +
+            user + " no cuenta con una gran influencia en la red social. (influencia menor a la media.)";
+        
+        }
+        
+        return msj;
+    
+    }    
+
+    private double calculateCloseness(String user) {
+        
+        double sum = 0;
+        
+        for (Vertex<String, User> vertex : graph.getVertices()) {
+            
+            String otherUser = vertex.getKey();
+            
+            if (!user.equals(otherUser)) {
+                
+                Path<String> path = graph.dijkstra(user, otherUser);
+                
+                sum += path.getDistance();
+            
+            }
+        
+        }
+        
+        return 1 / sum;
+    
+    }
+
+    private double calculateBetweenness(String user) {
+        
+        double betweenness = 0;
+        
+        for (Vertex<String, User> source : graph.getVertices()) {
+            
+            for (Vertex<String, User> destination : graph.getVertices()) {
+                
+                if (!source.equals(destination)) {
+                    
+                    Path<String> path = graph.dijkstra(source.getKey(), destination.getKey());
+                    
+                    if (path.getPath().contains(user)) {
+                        
+                        betweenness++;
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+        
+        return betweenness;
+    
+    }
+    
 }

@@ -118,6 +118,15 @@ public class GraphTest {
         Assert.assertNotNull(graph.searchVertex(3));
     
     }
+
+    @Test
+    public void testRemoveEdge() {
+        
+        graph.deleteEdge(2, 4);
+        
+        Assert.assertNull(graph.searchEdge(2, 4));
+    
+    }
     
 
     // Search
