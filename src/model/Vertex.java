@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-public class Vertex<E> {
+public class Vertex<K,T> {
 
-    private E element;
+    private T element;
 
-    private Vertex<E> predecessor;
+    private K key;
 
-    private List<Vertex<E>> graphList;
+    private Vertex<K,T> predecessor;
+
+    private List<Vertex<K,T>> graphList;
 
     private Color color;
 
@@ -18,7 +20,9 @@ public class Vertex<E> {
 
     private int finishTime;
 
-    public Vertex(E element){
+    public Vertex(T element, K key){
+
+        this.key = key;
 
         this.element = element;
 
@@ -30,19 +34,19 @@ public class Vertex<E> {
 
     }
 
-    public void addAdjacent(Vertex<E> adj){
+    public void addAdjacent(Vertex<K,T> adj){
 
         graphList.add(adj);
 
     }
 
-    public Vertex<E> getPredecessor() {
+    public Vertex<K,T> getPredecessor() {
 
         return predecessor;
 
     }
 
-    public void setPredecessor(Vertex<E> predecessor) {
+    public void setPredecessor(Vertex<K,T> predecessor) {
 
         this.predecessor = predecessor;
 
@@ -66,13 +70,13 @@ public class Vertex<E> {
 
     }
 
-    public List<Vertex<E>> getGraphList() {
+    public List<Vertex<K,T>> getGraphList() {
 
         return graphList;
 
     }
 
-    public void setGraphList(List<Vertex<E>> graphList) {
+    public void setGraphList(List<Vertex<K,T>> graphList) {
 
         this.graphList = getGraphList();
 
@@ -96,10 +100,18 @@ public class Vertex<E> {
 
     }
 
-    public E getElement() {
+    public T getElement() {
 
         return element;
 
+    }
+
+    public K getKey() {
+        return key;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
     }
 
 }

@@ -1,31 +1,39 @@
 package model;
 
-public interface IGraph<E> {
+import java.util.Map;
 
-    public void addVertex(E element);
+import java.util.List;
 
-    public void addEdge(E source, E destination, double weight);
+public interface IGraph<K,T> {
+
+    public void addVertex(K key, T element);
+
+    public void addEdge(K sourceKey, K destinationKey, double weight);
 
     public void DFS();
 
-    public void BFS(E sourceElement);
+    public void BFS(K sourceElement);
 
-    public Color getColor(E element);
+    public Color getColor(K key);
 
-    public double getDiscoveryTime(E element);
+    public double getDiscoveryTime(K key);
 
-    public int getFinishTime(E element);
+    public int getFinishTime(K key);
 
-    public E getPredecessor(E element);
+    public K getPredecessor (K key);
 
-    public void deleteVertex(E element);
+    public void deleteVertex(K key);
 
-    public void deleteEdge(E source, E destination);
+    public void deleteEdge(K sourceKey, K destinationKey);
 
-    public Vertex<E> searchVertex(E element);
+    public Vertex<K,T> searchVertex(K key);
 
-    public Double searchEdge(E source, E destination);
+    public Double searchEdge(K sourceKey, K destinationKey);
 
-    public Path<E> dijkstra(E eSource, E eDestination);
+    public Map<Pair<K, K>, Path<K>> floydWarshall();
+
+    public Path<K> dijkstra(K eSource, K eDestination);
+
+    public List<Vertex<K,T>> getVertices();
 
 }

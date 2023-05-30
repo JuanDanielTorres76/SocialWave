@@ -1,28 +1,18 @@
 package model;
 
-public class Path<E> {
+import java.util.List;
 
-    private Vertex<E> vertex;
+public class Path<K> {
 
     private double distance;
 
-    private boolean visited;
+    private List<K> path;
 
-    private Vertex<E> predecessor;
-
-    public Path(Vertex<E> vertex, double distance, Vertex<E> predecessor) {
-
-        this.vertex = vertex;
+    public Path(List<K> path, double distance) {
         
         this.distance = distance;
         
-        this.visited = false;
-    
-    }
-
-    public Vertex<E> getVertex() {
-        
-        return vertex;
+        this.path = path;
     
     }
 
@@ -37,27 +27,14 @@ public class Path<E> {
         this.distance = distance;
     
     }
-
-    public boolean isVisited() {
-        
-        return visited;
-    
+  
+    public List<K> getPath() {
+        return path;
     }
 
-    public void setVisited(boolean visited) {
-        
-        this.visited = visited;
-    
+    public void setPath(List<K> path) {
+        this.path = path;
     }
 
-    public void setPredecessor(Vertex<E> predecessor) {
-        this.predecessor = predecessor;
-    }
-    
-    public Vertex<E> getPredecessor() {
-
-        return predecessor;
-    
-    }
 
 }
