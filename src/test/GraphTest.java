@@ -57,6 +57,25 @@ public class GraphTest {
 
     }
 
+    public void setUp1(){
+
+        graph.addVertex(1, "One");
+        graph.addVertex(2, "Two");
+        graph.addVertex(3, "Three");
+        graph.addVertex(4, "Four");
+        graph.addVertex(5, "Five");
+
+        graph.addEdge(1, 2, 10);
+        graph.addEdge(1, 2, 5);
+        graph.addEdge(2, 4, 1);
+        graph.addEdge(3, 2, 3);
+        graph.addEdge(3, 5, 2);
+        graph.addEdge(3, 4, 9);
+        graph.addEdge(5, 4, 6);
+        graph.addEdge(5, 1, 2);
+
+    }
+
 
     @Test
     public void testBFSColor() {
@@ -219,5 +238,7 @@ public class GraphTest {
 
         return true;
     }
+
+
 
 }

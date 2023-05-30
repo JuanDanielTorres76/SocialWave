@@ -57,6 +57,7 @@ public class Controler {
     
     }
     
+    // BFS
 
     public List<User> findCommonFriends(String userA, String userB) {
         
@@ -128,6 +129,8 @@ public class Controler {
     
     }
 
+    // Dijkstra
+
     public String analyzeSocialInfluence(String user) {
 
         double closeness = calculateCloseness(user);
@@ -141,7 +144,7 @@ public class Controler {
         if(influence >= 300){
 
             msj = "\n" + "La influencia social de " + user + " es de " + influence + "\n" +
-            user + " cuenta con una gran influencia en la red social. (influencia mayor a la media.)" + "\n" +
+            user + " cuenta con una gran influencia en la red social. (influencia mayor a la media)" + "\n" +
             "Datos especificos:" + "\n" +
             "Calculo de cercania con los usuarios: " + closeness + "\n" +
             "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
@@ -150,7 +153,7 @@ public class Controler {
         } else{
             
             msj = "La influencia social de " + user + " es de " + influence + "\n" +
-            user + " no cuenta con una gran influencia en la red social. (influencia menor a la media.)" + "\n" +
+            user + " no cuenta con una gran influencia en la red social. (influencia menor a la media)" + "\n" +
             "Datos especificos:" + "\n" +
             "Calculo de cercania con los usuarios: " + closeness + "\n" +
             "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
