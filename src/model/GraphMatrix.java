@@ -208,54 +208,7 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
     
     }
 
-    @Override
-    public Path<K> dijkstra(K eSource, K eDestination) {
-        
-        Vertex<K,T> source = vertices.get(eSource);
-        
-        Vertex<K,T> destination = vertices.get(eDestination);
-        
-        if (source == null || destination == null) {
-            
-            return null;
-        
-        }
-        
-        Map<Vertex<K,T>, Double> distances = new HashMap<>();
-        
-        Map<Vertex<K,T>, Vertex<K,T>> predecessors = new HashMap<>();
-        
-        PriorityQueue<Vertex<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
-        
-        for (Vertex<K,T> vertex : vertices.values()) {
-            
-            distances.put(vertex, Double.MAX_VALUE);
-            
-            predecessors.put(vertex, null);
-        
-        }
-        
-        distances.put(source, 0.0);
-        
-        queue.offer(source);
-        
-        while (!queue.isEmpty()) {
-            
-            Vertex<K,T> current = queue.poll();
-            
-            if (current.equals(destination)) {
-                
-                break;
-            
-            }
-            
-            for (Vertex<K,T> adjacent : getAdjacentVertices(current)) {
-                
-                double weight = searchEdge(current.getKey(), adjacent.getKey());
-                
-                double newDistance = distances.get(current) + weight;
-                
-                if (newDistance < distances.get(adjacent)) {
+   
                     
                     distances.put(adjacent, newDistance);
                     

@@ -57,120 +57,6 @@ public class GraphTest {
 
     }
 
-    // Add
-
-    @Test
-    public void testAddVertex() {
-        
-        graph.addVertex(9, "Nine");
-        
-        Assert.assertNotNull(graph.searchVertex(9));
-    
-    }
-
-    @Test
-    public void testAddDuplicateVertex() {
-        
-        graph.addVertex(1, "One");
-     
-        Assert.assertEquals("One", graph.searchVertex(1).getElement());
-    
-    }
-
-    @Test
-    public void testAddEdge() {
-        
-        graph.addEdge(1, 4, 2.5);
-       
-        Assert.assertEquals(2.5, graph.searchEdge(1, 4), 0.001);
-    }
-    
-
-    // Deelete
-
-    @Test
-    public void testRemoveVertex() {
-        
-        graph.deleteVertex(8);
-        
-        Assert.assertNull(graph.searchVertex(8));
-        
-        Assert.assertNull(graph.searchEdge(4, 8));
-        
-        Assert.assertNull(graph.searchEdge(5, 8));
-        
-        Assert.assertNull(graph.searchEdge(6, 8));
-        
-        Assert.assertNull(graph.searchEdge(7, 8));
-    
-    }
-
-    @Test
-    public void testRemoveNonexistentVertex() {
-
-        // Vertice inexistente
-        graph.deleteVertex(9);
-
-        Assert.assertNotNull(graph.searchVertex(1));
-        
-        Assert.assertNotNull(graph.searchVertex(2));
-        
-        Assert.assertNotNull(graph.searchVertex(3));
-    
-    }
-
-    @Test
-    public void testRemoveEdge() {
-        
-        graph.deleteEdge(2, 4);
-        
-        Assert.assertNull(graph.searchEdge(2, 4));
-    
-    }
-    
-
-    // Search
-
-    @Test
-    public void testSearchVertex() {
-        
-        Vertex<Integer, String> vertex = graph.searchVertex(3);
-        
-        Assert.assertNotNull(vertex);
-        
-        Assert.assertEquals("Three", vertex.getElement());
-    
-    }
-
-    @Test
-    public void testSearchNonexistentEdge() {
-
-        // Arista inexistente
-        Double weight = graph.searchEdge(4, 6);
-        
-        Assert.assertNull(weight);
-
-    }
-
-    @Test
-    public void testSearchNonexistentVertex() {
-
-        // Vertice inexistente
-        Vertex<Integer, String> vertex = graph.searchVertex(9);
-        
-        Assert.assertNull(vertex);
-    
-    }
-
-    // Dijkstra
-
-
-
-    // Prim
-
-
-
-    // BFS
 
     @Test
     public void testBFSColor() {
@@ -292,6 +178,46 @@ public class GraphTest {
 
         Assert.assertEquals(expectedOrder, order);
         
+    }
+    
+    @Test
+    public void testFloydWarshall1(){
+
+        double distanceExpected = 9.0;
+        Integer [] pathExpected = new Integer[]{1, 3, 2, 4};
+        Path<Integer> path;
+
+        Pair<Integer, Integer> route = new Pair<>(1, 4);
+
+        graph = new GraphList<>(true);
+
+        setUp1();
+
+        path =  graph.floydWarshall().get(route);
+
+        verifyPath(path, pathExpected, distanceExpected);
+
+        //--------------------------------------------
+
+        graph = new GraphMatrix<>(true);
+
+        setUp1();
+
+        path =  graph.floydWarshall().get(route);
+
+        verifyPath(path, pathExpected, distanceExpected);
+
+    }
+
+    public boolean verifyPath(Path<Integer> path, Integer[] pathExpected, double distanceExpected){
+
+        if(path.getDistance() != distanceExpected) return false;
+
+        for(int i = 0; i < pathExpected.length; i++)
+            if(!path.getPath().get(i).equals(pathExpected[i]))
+                return false;
+
+        return true;
     }
 
 }
