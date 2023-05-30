@@ -26,7 +26,7 @@ public class Main {
 
     public static void startApp(){
 
-        System.out.println("Bienvenido a SocialWave.");
+        System.out.println(" - Bienvenido a SocialWave - ");
         
         Main main = new Main();
 

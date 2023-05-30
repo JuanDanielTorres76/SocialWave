@@ -138,15 +138,22 @@ public class Controler {
 
         String msj = "";
 
-        if(influence >= 170){
+        if(influence >= 300){
 
             msj = "\n" + "La influencia social de " + user + " es de " + influence + "\n" +
-            user + " cuenta con una gran influencia en la red social. (influencia mayor a la media.)";
+            user + " cuenta con una gran influencia en la red social. (influencia mayor a la media.)" + "\n" +
+            "Datos especificos:" + "\n" +
+            "Calculo de cercania con los usuarios: " + closeness + "\n" +
+            "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
+
         
         } else{
             
             msj = "La influencia social de " + user + " es de " + influence + "\n" +
-            user + " no cuenta con una gran influencia en la red social. (influencia menor a la media.)";
+            user + " no cuenta con una gran influencia en la red social. (influencia menor a la media.)" + "\n" +
+            "Datos especificos:" + "\n" +
+            "Calculo de cercania con los usuarios: " + closeness + "\n" +
+            "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
         
         }
         
@@ -165,16 +172,23 @@ public class Controler {
             if (!user.equals(otherUser)) {
                 
                 Path<String> path = graph.dijkstra(user, otherUser);
+
+                // Si hay un camino valido entre los usuarios.
                 
-                sum += path.getDistance();
+                if (path.getDistance() != Double.MAX_VALUE) {
+                    
+                    sum += path.getDistance();
+                
+                }
             
             }
         
         }
         
-        return 1 / sum;
+        return sum;
     
     }
+    
 
     private double calculateBetweenness(String user) {
         
