@@ -207,6 +207,138 @@ public class GraphTest {
 
     // }
 
+    @Test
+    public void testAddVertex() {
+        
+        graph.addVertex(9, "Nine");
+        
+        Assert.assertNotNull(graph.searchVertex(9));
+    
+    }
+
+    @Test
+    public void testAddDuplicateVertex() {
+        
+        graph.addVertex(1, "One");
+     
+        Assert.assertEquals("One", graph.searchVertex(1).getElement());
+    
+    }
+
+    @Test
+    public void testAddEdge() {
+        
+        graph.addEdge(1, 4, 2.5);
+       
+        Assert.assertEquals(2.5, graph.searchEdge(1, 4), 0.001);
+    }
+    
+
+    // Deelete
+
+    @Test
+    public void testRemoveVertex() {
+        
+        graph.deleteVertex(8);
+        
+        Assert.assertNull(graph.searchVertex(8));
+        
+        Assert.assertNull(graph.searchEdge(4, 8));
+        
+        Assert.assertNull(graph.searchEdge(5, 8));
+        
+        Assert.assertNull(graph.searchEdge(6, 8));
+        
+        Assert.assertNull(graph.searchEdge(7, 8));
+    
+    }
+
+    @Test
+    public void testRemoveNonexistentVertex() {
+
+        // Vertice inexistente
+        graph.deleteVertex(9);
+
+        Assert.assertNotNull(graph.searchVertex(1));
+        
+        Assert.assertNotNull(graph.searchVertex(2));
+        
+        Assert.assertNotNull(graph.searchVertex(3));
+    
+    }
+
+    @Test
+    public void testRemoveEdge() {
+        
+        graph.deleteEdge(2, 4);
+        
+        Assert.assertNull(graph.searchEdge(2, 4));
+    
+    }
+    
+
+    // Search
+
+    @Test
+    public void testSearchVertex() {
+        
+        Vertex<Integer, String> vertex = graph.searchVertex(3);
+        
+        Assert.assertNotNull(vertex);
+        
+        Assert.assertEquals("Three", vertex.getElement());
+    
+    }
+
+    @Test
+    public void testSearchNonexistentEdge() {
+
+        // Arista inexistente
+        Double weight = graph.searchEdge(4, 6);
+        
+        Assert.assertNull(weight);
+
+    }
+
+    @Test
+    public void testSearchNonexistentVertex() {
+
+        // Vertice inexistente
+        Vertex<Integer, String> vertex = graph.searchVertex(9);
+        
+        Assert.assertNull(vertex);
+    
+    }
+
+    // Dijkstra
+
+
+
+    // Prim
+
+
+
+    // BFS
+    public void setUp1(){
+
+        graph.addVertex(1, "One");
+        graph.addVertex(2, "Two");
+        graph.addVertex(3, "Three");
+        graph.addVertex(4, "Four");
+        graph.addVertex(5, "Five");
+
+        graph.addEdge(1, 2, 10);
+        graph.addEdge(1, 2, 5);
+        graph.addEdge(2, 4, 1);
+        graph.addEdge(3, 2, 3);
+        graph.addEdge(3, 5, 2);
+        graph.addEdge(3, 4, 9);
+        graph.addEdge(5, 4, 6);
+        graph.addEdge(5, 1, 2);
+
+    }
+
+
     public boolean verifyPath(Path<Integer> path, Integer[] pathExpected, double distanceExpected){
 
         if(path.getDistance() != distanceExpected) return false;
