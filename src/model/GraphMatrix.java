@@ -225,7 +225,7 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
 
         distances.put(sourceVertex, 0.0);
 
-        queue.add(new PathDijkstra(sourceVertex, 0, sourceVertex));
+        queue.add(new PathDijkstra(sourceVertex, 0, null));
 
         while (!queue.isEmpty()) {
 
@@ -239,7 +239,7 @@ public class GraphMatrix<K,T> implements IGraph<K,T> {
 
             }
 
-            if (currentVertex.getElement().equals(eDestination)) return currentPath;
+            if (currentVertex.getKey().equals(eDestination)) return currentPath;
 
             int currentIndex = mapIndex.get(currentVertex);
 

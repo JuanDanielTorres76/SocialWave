@@ -57,6 +57,25 @@ public class GraphTest {
 
     }
 
+    public void setUp1(){
+
+        graph.addVertex(1, "One");
+        graph.addVertex(2, "Two");
+        graph.addVertex(3, "Three");
+        graph.addVertex(4, "Four");
+        graph.addVertex(5, "Five");
+
+        graph.addEdge(1, 2, 10);
+        graph.addEdge(1, 2, 5);
+        graph.addEdge(2, 4, 1);
+        graph.addEdge(3, 2, 3);
+        graph.addEdge(3, 5, 2);
+        graph.addEdge(3, 4, 9);
+        graph.addEdge(5, 4, 6);
+        graph.addEdge(5, 1, 2);
+
+    }
+
     @Test
     public void testBFSColor() {
 
@@ -175,6 +194,46 @@ public class GraphTest {
 
         Assert.assertEquals(expectedOrder, order);
         
+    }
+    
+    @Test
+    public void testFloydWarshall1(){
+
+        double distanceExpected = 9.0;
+        Integer [] pathExpected = new Integer[]{1, 3, 2, 4};
+        Path<Integer> path;
+
+        Pair<Integer, Integer> route = new Pair<>(1, 4);
+
+        graph = new GraphList<>(true);
+
+        setUp1();
+
+        path =  graph.floydWarshall().get(route);
+
+        verifyPath(path, pathExpected, distanceExpected);
+
+        //--------------------------------------------
+
+        graph = new GraphMatrix<>(true);
+
+        setUp1();
+
+        path =  graph.floydWarshall().get(route);
+
+        verifyPath(path, pathExpected, distanceExpected);
+
+    }
+
+    public boolean verifyPath(Path<Integer> path, Integer[] pathExpected, double distanceExpected){
+
+        if(path.getDistance() != distanceExpected) return false;
+
+        for(int i = 0; i < pathExpected.length; i++)
+            if(!path.getPath().get(i).equals(pathExpected[i]))
+                return false;
+
+        return true;
     }
 
 }
