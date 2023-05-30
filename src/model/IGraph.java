@@ -2,6 +2,8 @@ package model;
 
 import java.util.Map;
 
+import java.util.List;
+
 public interface IGraph<K,T> {
 
     public void addVertex(K key, T element);
@@ -28,8 +30,10 @@ public interface IGraph<K,T> {
 
     public Double searchEdge(K sourceKey, K destinationKey);
 
-    public PathDijkstra<K,T> dijkstra(K eSource, K eDestination);
-
     public Map<Pair<K, K>, Path<K>> floydWarshall();
+
+    public Path<K> dijkstra(K eSource, K eDestination);
+
+    public List<Vertex<K,T>> getVertices();
 
 }
