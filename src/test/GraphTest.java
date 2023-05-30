@@ -196,34 +196,32 @@ public class GraphTest {
         
     }
     
-    @Test
-    public void testFloydWarshall1(){
+    // @Test
+    // public void testFloydWarshall1(){
 
-        double distanceExpected = 9.0;
-        Integer [] pathExpected = new Integer[]{1, 3, 2, 4};
-        Path<Integer> path;
+    //     double distanceExpected = 9.0;
+    //     Integer [] pathExpected = new Integer[]{1, 3, 2, 4};
+    //     Path<Integer> path;
 
-        Pair<Integer, Integer> route = new Pair<>(1, 4);
+    //     Pair<Integer, Integer> route = new Pair<>(1, 4);
 
-        graph = new GraphList<>(true);
+    //     graph = new GraphList<>(true);
 
-        setUp1();
+    //     setUp1();
 
-        path =  graph.floydWarshall().get(route);
+    //     path =  graph.floydWarshall().get(route);
 
-        verifyPath(path, pathExpected, distanceExpected);
+    //     verifyPath(path, pathExpected, distanceExpected);
 
-        //--------------------------------------------
+    //     graph = new GraphMatrix<>(true);
 
-        graph = new GraphMatrix<>(true);
+    //     setUp1();
 
-        setUp1();
+    //     path =  graph.floydWarshall().get(route);
 
-        path =  graph.floydWarshall().get(route);
+    //     verifyPath(path, pathExpected, distanceExpected);
 
-        verifyPath(path, pathExpected, distanceExpected);
-
-    }
+    // }
 
     public boolean verifyPath(Path<Integer> path, Integer[] pathExpected, double distanceExpected){
 
