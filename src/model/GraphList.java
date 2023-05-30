@@ -183,6 +183,83 @@ public class GraphList<K,T> implements IGraph<K,T>{
     }
 
     @Override
+    public Path<K> dijkstra(K eSource, K eDestination) {
+        
+        Vertex<K,T> source = vertices.get(eSource);
+        
+        Vertex<K,T> destination = vertices.get(eDestination);
+        
+        if (source == null || destination == null) {
+            
+            return null;
+        
+        }
+        
+        Map<Vertex<K,T>, Double> distances = new HashMap<>();
+        
+        Map<Vertex<K,T>, Vertex<K,T>> predecessors = new HashMap<>();
+        
+        PriorityQueue<Vertex<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
+        
+        for (Vertex<K,T> vertex : vertices.values()) {
+            
+            distances.put(vertex, Double.MAX_VALUE);
+            
+            predecessors.put(vertex, null);
+        
+        }
+        
+        distances.put(source, 0.0);
+        
+        queue.offer(source);
+        
+        while (!queue.isEmpty()) {
+            
+            Vertex<K,T> current = queue.poll();
+            
+            if (current.equals(destination)) {
+                
+                break;
+            
+            }
+            
+            for (Vertex<K,T> adjacent : current.getGraphList()) {
+                
+                double weight = searchEdge(current.getKey(), adjacent.getKey());
+                
+                double newDistance = distances.get(current) + weight;
+                
+                if (newDistance < distances.get(adjacent)) {
+                    
+                    distances.put(adjacent, newDistance);
+                    
+                    predecessors.put(adjacent, current);
+                    
+                    queue.offer(adjacent);
+                
+                }
+            
+            }
+        
+        }
+        
+        List<K> path = new ArrayList<>();
+        
+        Vertex<K,T> current = destination;
+        
+        while (current != null) {
+            
+            path.add(0, current.getKey());
+            
+            current = predecessors.get(current);
+        
+        }
+        
+        return new Path<>(path, distances.get(destination));
+    
+    }
+
+    @Override
     public Map<Pair<K, K>, Path<K>> floydWarshall(){
 
         int n = vertices.size();
@@ -249,69 +326,6 @@ public class GraphList<K,T> implements IGraph<K,T>{
         return paths;
 
     }
-
-    @Override
-
-    public PathDijkstra<K,T> dijkstra(K eSource, K eDestination) {
-        
-        Map<Vertex<K,T>, Double> distances = new HashMap<>();
-        
-        for (Vertex<K,T> vertex : vertices.values()) {
-            
-            distances.put(vertex, Double.POSITIVE_INFINITY);
-        
-        }
-        
-        PriorityQueue<PathDijkstra<K,T>> queue = new PriorityQueue<>(Comparator.comparingDouble(PathDijkstra::getDistance));
-        
-        Vertex<K,T> sourceVertex = vertices.get(eSource);
-        
-        distances.put(sourceVertex, 0.0);
-        
-        queue.add(new PathDijkstra(sourceVertex, 0, null));
-        
-        while (!queue.isEmpty()) {
-            
-            PathDijkstra<K,T> currentPath = queue.poll();
-            
-            Vertex<K,T> currentVertex = currentPath.getVertex();
-    
-            if (!currentPath.isVisited()) {
-                
-                currentPath.setVisited(true);
-
-            }
-    
-            if (currentVertex.getElement().equals(eDestination)) {
-                
-                return currentPath;
-                
-            }
-
-            for (Map.Entry<Vertex<K,T>, Double> entry : edges.get(currentVertex).entrySet()) {
-
-                Vertex<K,T> neighbor = entry.getKey();
-                
-                double edgeWeight = entry.getValue();
-                
-                double newDistance = distances.get(currentVertex) + edgeWeight;
-                
-                if (newDistance < distances.get(neighbor)) {
-                    
-                    distances.put(neighbor, newDistance);
-                    
-                    queue.add(new PathDijkstra<>(neighbor, newDistance, currentVertex));
-                
-                }
-            
-            }
-        
-        }
-    
-        return null;
-    
-    } 
-
 
     @Override
     public Vertex<K,T> searchVertex(K key){
@@ -418,6 +432,13 @@ public class GraphList<K,T> implements IGraph<K,T>{
 
         return null;
 
+    }
+
+    @Override
+    public List<Vertex<K,T>> getVertices() {
+        
+        return new ArrayList<>(vertices.values());
+    
     }
 
 }
