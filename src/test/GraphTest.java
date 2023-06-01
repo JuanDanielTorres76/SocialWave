@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import model.*;
 
+import static org.junit.Assert.assertTrue;
+
 public class GraphTest {
 
     private IGraph<Integer, String> graph;
@@ -57,22 +59,9 @@ public class GraphTest {
 
     }
 
-    public void setUp1(){
+    public void setUp2(){
 
-        graph.addVertex(1, "One");
-        graph.addVertex(2, "Two");
-        graph.addVertex(3, "Three");
-        graph.addVertex(4, "Four");
-        graph.addVertex(5, "Five");
 
-        graph.addEdge(1, 2, 10);
-        graph.addEdge(1, 2, 5);
-        graph.addEdge(2, 4, 1);
-        graph.addEdge(3, 2, 3);
-        graph.addEdge(3, 5, 2);
-        graph.addEdge(3, 4, 9);
-        graph.addEdge(5, 4, 6);
-        graph.addEdge(5, 1, 2);
 
     }
 
@@ -160,7 +149,7 @@ public class GraphTest {
 
     @Test
     public void testDFSPath() {
-        
+
         graph.DFS();
 
         Assert.assertEquals(1, (int)graph.getPredecessor(2));
@@ -197,50 +186,8 @@ public class GraphTest {
         Collections.sort(expectedOrder);
 
         Assert.assertEquals(expectedOrder, order);
-        
-    }
-    
-    @Test
-    public void testFloydWarshall1(){
-
-        double distanceExpected = 9.0;
-        Integer [] pathExpected = new Integer[]{1, 3, 2, 4};
-        Path<Integer> path;
-
-        Pair<Integer, Integer> route = new Pair<>(1, 4);
-
-        graph = new GraphList<>(true);
-
-        setUp1();
-
-        path =  graph.floydWarshall().get(route);
-
-        verifyPath(path, pathExpected, distanceExpected);
-
-        //--------------------------------------------
-
-        graph = new GraphMatrix<>(true);
-
-        setUp1();
-
-        path =  graph.floydWarshall().get(route);
-
-        verifyPath(path, pathExpected, distanceExpected);
 
     }
-
-    public boolean verifyPath(Path<Integer> path, Integer[] pathExpected, double distanceExpected){
-
-        if(path.getDistance() != distanceExpected) return false;
-
-        for(int i = 0; i < pathExpected.length; i++)
-            if(!path.getPath().get(i).equals(pathExpected[i]))
-                return false;
-
-        return true;
-    }
-
-    // Add
 
     @Test
     public void testAddVertex() {
@@ -338,6 +285,60 @@ public class GraphTest {
 
     // Dijkstra
 
-    // Prim
+    @Test
+    public void testDijkstraShortestPath() {
+
+        Path<Integer> path = graph.dijkstra(1, 8);
+
+        //Verifica la rutas msa corta entre 1 y 8
+
+        Assert.assertEquals("[1, 2, 5, 8]", path.getPath().toString());
+
+        Assert.assertEquals(3.0, path.getDistance(), 0.001);
+
+    }
+
+    @Test
+    public void testDijkstraSourceEqualsDestination() {
+
+        Path<Integer> path = graph.dijkstra(1, 1);
+
+        //Verifica el camino en caso de que el origen y el destino sean los mismos
+
+        Assert.assertEquals("[1]", path.getPath().toString());
+
+        Assert.assertEquals(0.0, path.getDistance(), 0.001);
+
+    }
+
+    @Test
+    public void testDijkstraUnreachableDestination() {
+
+        //Prueba el camino en caso de que el camino no exista
+
+        Path<Integer> path = graph.dijkstra(1, 9);
+
+        Assert.assertNull(path);
+    }
+
+    @Test
+    public void testDijkstraSourceNotInGraph() {
+
+        //Prueba el caso en el que el origen no exista
+
+        Path<Integer> path = graph.dijkstra(9, 8);
+
+        Assert.assertNull(path);
+    }
+
+    @Test
+    public void testDijkstraDestinationNotInGraph() {
+
+        //Prueba el caso en el que el destino no exista.
+
+        Path<Integer> path = graph.dijkstra(1, 9);
+
+        Assert.assertNull(path);
+    }
 
 }
