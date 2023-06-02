@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import model.*;
 
-import static org.junit.Assert.assertTrue;
-
 public class GraphTest {
 
     private IGraph<Integer, String> graph;
@@ -188,6 +186,8 @@ public class GraphTest {
         Assert.assertEquals(expectedOrder, order);
 
     }
+
+    // Add
 
     @Test
     public void testAddVertex() {

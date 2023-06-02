@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Map;
 import java.util.List;
 
 public interface IGraph<K,T> {
