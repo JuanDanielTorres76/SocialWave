@@ -7,6 +7,7 @@ public class Controler {
     private IGraph<String, User> graph;
 
     public Controler() {
+        
         graph = new GraphList<>(false);
 
         String[] names = {"Paula", "Maria", "David", "Juan", "Sofia", "Lucas", "Mateo", "Isabella", "Valentina", "Camila", "Benjamin", "Daniel", "Emily", "Olivia", "Mia", "Sebastian", "Santiago", "Victoria", "Gabriel", "Samuel", "Isabelle", "Natalie", "Angelina", "Carolina", "Juliana", "Andres", "Nicolas", "Carlos", "Fernando", "Diego", "Alicia", "Cecilia", "Diana", "Elena", "Fabiana", "Giselle", "Hannah", "Irene", "Jacqueline", "Katherine", "Liliana", "Mariana", "Nora", "Oriana", "Penelope"};

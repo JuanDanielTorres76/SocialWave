@@ -63,6 +63,21 @@ public class GraphTest {
 
     }
 
+    @Test
+    public void testFindCommonFriends() {
+        Controler controller = new Controler();
+
+        String userA1 = "Paula";
+        String userB1 = "David";
+        String[] expected1 = {"Lucas"};
+        Assert.assertArrayEquals(expected1, controller.findCommonFriends(userA1, userB1).stream().map(User::getName).toArray());
+
+        String userA2 = "Maria";
+        String userB2 = "Mateo";
+        String[] expected2 = {"Juan", "Lucas"};
+        Assert.assertArrayEquals(expected2, controller.findCommonFriends(userA2, userB2).stream().map(User::getName).toArray());
+    }
+
     // BFS
 
     @Test
