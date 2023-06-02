@@ -7,6 +7,7 @@ public class Controler {
     private IGraph<String, User> graph;
 
     public Controler() {
+        
         graph = new GraphList<>(false);
 
         String[] names = {"Paula", "Maria", "David", "Juan", "Sofia", "Lucas", "Mateo", "Isabella", "Valentina", "Camila", "Benjamin", "Daniel", "Emily", "Olivia", "Mia", "Sebastian", "Santiago", "Victoria", "Gabriel", "Samuel", "Isabelle", "Natalie", "Angelina", "Carolina", "Juliana", "Andres", "Nicolas", "Carlos", "Fernando", "Diego", "Alicia", "Cecilia", "Diana", "Elena", "Fabiana", "Giselle", "Hannah", "Irene", "Jacqueline", "Katherine", "Liliana", "Mariana", "Nora", "Oriana", "Penelope"};
@@ -57,7 +58,7 @@ public class Controler {
 
     //DFS
 
-    private Map<String, User> recommendFriends(String userName){
+    public Map<String, User> recommendFriends(String userName){
 
         Map<String,User> recommendedFriends = new HashMap<>();
 
@@ -242,7 +243,7 @@ public class Controler {
                     user + " cuenta con una gran influencia en la red social. (influencia mayor a la media)" + "\n" +
                     "Datos especificos:" + "\n" +
                     "Calculo de cercania con los usuarios: " + closeness + "\n" +
-                    "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
+                    "Calculo de intermediacion con los usuarios: " + betweenness + "\n";
 
 
         } else{
@@ -251,7 +252,7 @@ public class Controler {
                     user + " no cuenta con una gran influencia en la red social. (influencia menor a la media)" + "\n" +
                     "Datos especificos:" + "\n" +
                     "Calculo de cercania con los usuarios: " + closeness + "\n" +
-                    "Calculo de intermedicacion con los usuarios: " + betweenness + "\n";
+                    "Calculo de intermediacion con los usuarios: " + betweenness + "\n";
 
         }
 

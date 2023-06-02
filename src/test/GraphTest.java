@@ -11,6 +11,7 @@ import org.junit.Test;
 import model.*;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
@@ -344,6 +345,8 @@ public class GraphTest {
         Assert.assertNull(path);
     }
 
+    // CommonFriends
+
     @Test
 
     public void testFindCommonFriends1(){
@@ -392,6 +395,111 @@ public class GraphTest {
 
     }
 
+    // RecommendFriends
 
+    @Test
+    public void testRecommendFriends() {
+        Controler controler = new Controler();
+
+        
+        Map<String, User> recommendedFriends = controler.recommendFriends("Paula");
+        
+        assertEquals(16, recommendedFriends.size());
+        
+        assertTrue(recommendedFriends.containsKey("Sofia"));
+        
+        assertTrue(recommendedFriends.containsKey("Juan"));
+        
+        assertTrue(recommendedFriends.containsKey("Lucas"));
+    
+    }
+
+    @Test
+    public void testRecommendFriends2() {
+        
+        Controler controler = new Controler();
+    
+        Map<String, User> recommendedFriends = controler.recommendFriends("Maria");
+    
+        assertEquals(16, recommendedFriends.size());
+    
+        assertTrue(recommendedFriends.containsKey("Sofia"));
+    
+        assertTrue(recommendedFriends.containsKey("Mateo"));
+    
+        assertTrue(recommendedFriends.containsKey("Isabella"));
+
+    }
+
+    @Test
+    public void testRecommendFriends3() {
+
+        Controler controler = new Controler();
+    
+        Map<String, User> recommendedFriends = controler.recommendFriends("Lucas");
+    
+        assertTrue(recommendedFriends.containsKey("Sofia"));
+    
+        assertTrue(recommendedFriends.containsKey("Juan"));
+    
+        assertTrue(recommendedFriends.containsKey("Mateo"));
+
+    }
+
+    // AnalyzeSocialInfluence
+
+    @Test
+    public void testAnalyzeSocialInfluence() {
+        Controler controler = new Controler();
+    
+        String userName = "Paula";
+        
+        String expectedOutput = "\nLa influencia social de Paula es de 411.0\n" +
+                                "Paula cuenta con una gran influencia en la red social. (influencia mayor a la media)\n" +
+                                "Datos especificos:\n" +
+                                "Calculo de cercania con los usuarios: 119.0\n" +
+                                "Calculo de intermediacion con los usuarios: 292.0\n";
+    
+        String result = controler.analyzeSocialInfluence(userName);
+    
+        assertEquals(expectedOutput, result);
+
+    }
+
+    @Test
+    public void testAnalyzeSocialInfluence2() {
+        Controler controler = new Controler();
+    
+        String userName = "Maria";
+        
+        String expectedOutput = "La influencia social de Maria es de 244.0\n" +
+                                "Maria no cuenta con una gran influencia en la red social. (influencia menor a la media)\n" +
+                                "Datos especificos:\n" +
+                                "Calculo de cercania con los usuarios: 116.0\n" +
+                                "Calculo de intermediacion con los usuarios: 128.0\n";
+    
+        String result = controler.analyzeSocialInfluence(userName);
+    
+        assertEquals(expectedOutput, result);
+
+    }
+
+    @Test
+    public void testAnalyzeSocialInfluence3() {
+        Controler controler = new Controler();
+    
+        String userName = "Carlos";
+        
+        String expectedOutput = "La influencia social de Carlos es de 240.0\n" +
+                                "Carlos no cuenta con una gran influencia en la red social. (influencia menor a la media)\n" +
+                                "Datos especificos:\n" +
+                                "Calculo de cercania con los usuarios: 155.0\n" +
+                                "Calculo de intermediacion con los usuarios: 85.0\n";
+    
+        String result = controler.analyzeSocialInfluence(userName);
+    
+        assertEquals(expectedOutput, result);
+
+    }
 
 }
