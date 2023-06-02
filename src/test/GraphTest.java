@@ -10,11 +10,14 @@ import org.junit.Test;
 
 import model.*;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
 
     private IGraph<Integer, String> graph;
+
+    private Controler c1;
 
     @Before
     public void setUp() {
@@ -59,9 +62,9 @@ public class GraphTest {
 
     }
 
-    public void setUp2(){
+    public void setUp1(){
 
-
+        c1 = new Controler();
 
     }
 
@@ -340,5 +343,55 @@ public class GraphTest {
 
         Assert.assertNull(path);
     }
+
+    @Test
+
+    public void testFindCommonFriends1(){
+
+        setUp1();
+
+        String  user1 = "Juan";
+
+        String user2 = "Mia";
+
+        //Juan y Mia no tienen amigos en comun.
+
+        List<User> commonFriends =  c1.findCommonFriends(user1, user2);
+
+        assertTrue(commonFriends.isEmpty());
+
+    }
+
+    @Test
+
+    public  void testFindCommonFriends2(){
+
+        setUp1();
+
+        String  user1 = "Sofia";
+
+        String user2 = "Mateo";
+
+        List<User> commonFriends =  c1.findCommonFriends(user1, user2);
+
+        assertTrue(!commonFriends.isEmpty());
+
+    }
+
+    @Test
+
+    public void testCommonFriends3(){
+
+        setUp1();
+
+        String  user1 = "Sofia";
+
+        String user2 = "Mateo";
+
+        List<User> commonFriends =  c1.findCommonFriends(user1, user2);
+
+    }
+
+
 
 }

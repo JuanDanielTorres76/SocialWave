@@ -41,7 +41,6 @@ public class Controler {
 
     }
 
-
     private void addFriendship(String userA, String userB) {
 
         User objUserA = graph.searchVertex(userA).getElement();
@@ -78,6 +77,9 @@ public class Controler {
 
         }
 
+        neighbors = validateNb(neighbors, user);
+
+
         for(Vertex<String,User> nb : neighbors){
 
             List<Vertex<String, User>> listNb = nb.getGraphList();
@@ -87,7 +89,6 @@ public class Controler {
                 if(recommendedFriends.containsKey(rFriend.getKey())){
 
                     rFriend.getElement().setMutualConnections(rFriend.getElement().getMutualConnections()+1);
-
                 }else{
 
                     rFriend.getElement().setMutualConnections(rFriend.getElement().getMutualConnections()+1);
@@ -98,11 +99,11 @@ public class Controler {
 
             }
 
-            if(recommendedFriends.containsKey(userName)){
+        }
 
-                recommendedFriends.remove(userName);
+        if(recommendedFriends.containsKey(userName)){
 
-            }
+            recommendedFriends.remove(userName);
 
         }
 
@@ -111,6 +112,8 @@ public class Controler {
     }
 
     public void printRecommendedFriends(String userName){
+
+        userName = Character.toUpperCase(userName.charAt(0)) + userName.substring(1).toLowerCase();
 
         Map<String, User> rF = recommendFriends(userName);
 
@@ -177,7 +180,28 @@ public class Controler {
 
     }
 
+    public List<Vertex<String,User>> validateNb(List<Vertex<String,User>> neighbors, Vertex<String, User> user){
+
+        if(!neighbors.isEmpty()){
+
+            System.out.println("Validated recommended friends");
+
+        }
+
+        neighbors.clear();
+
+        neighbors = user.getGraphList();
+
+        return neighbors;
+
+    }
+
     public void printCommonFriends(String userA, String userB) {
+
+        userA = Character.toUpperCase(userA.charAt(0)) + userA.substring(1).toLowerCase();
+
+        userB = Character.toUpperCase(userB.charAt(0)) + userB.substring(1).toLowerCase();
+
         List<User> commonFriends = findCommonFriends(userA, userB);
 
         System.out.print("\nAmigos en comun entre " + userA + " y " + userB + ":");
@@ -201,6 +225,8 @@ public class Controler {
     // Dijkstra
 
     public String analyzeSocialInfluence(String user) {
+
+        user = Character.toUpperCase(user.charAt(0)) + user.substring(1).toLowerCase();
 
         double closeness = calculateCloseness(user);
 
@@ -287,6 +313,12 @@ public class Controler {
         }
 
         return betweenness;
+
+    }
+
+    public IGraph<String, User> getGraph(){
+
+        return graph;
 
     }
 
