@@ -38,9 +38,9 @@ public class Main {
 
     public void startMenu() {
 
-        int option = 0;
+        boolean running = true;
 
-        while (option != 5) {
+        while (running) {
 
             System.out.println("\nEscoge una opción.\n");
 
@@ -54,7 +54,7 @@ public class Main {
 
             System.out.println(" 5 - Salir.");
 
-            option = reader.nextInt();
+            int option = reader.nextInt();
 
             reader.nextLine();
 
@@ -104,6 +104,8 @@ public class Main {
 
                     System.out.println("\nHasta pronto!");
 
+                    running = false;
+
                     break;
 
                 default:
@@ -115,6 +117,8 @@ public class Main {
             }
 
         }
+
+        System.out.println("Gracias por usar nuestra aplicacion SOCIAL WAVE");
 
     }
 
